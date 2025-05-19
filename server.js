@@ -3,15 +3,13 @@ const sqlite3 = require('sqlite3').verbose()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const path = require('path')
-
 const http = require('http')
 const { Server } = require('socket.io')
 
 const app = express()
-const SECRET = 'secret_key'
-
 const server = http.createServer(app)
 const io = new Server(server)
+const SECRET = 'secret_key'
 
 const db = new sqlite3.Database('./data.db')
 
@@ -34,7 +32,7 @@ app.post('/register', async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10)
     db.run(`INSERT INTO users (username, email, password) VALUES (?, ?, ?)`,
-        [username, email, hash], function(err) {
+        [username, email, hash], function (err) {
             if (err) return res.status(400).send('User exists or DB error')
             res.status(201).send('Registered')
         })
@@ -52,43 +50,58 @@ app.post('/login', (req, res) => {
 })
 
 let players = {}
-let food = { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) }
+let food = spawnFood()
 
-io.on("connection", socket => {
-    const startX = Math.floor(Math.random() * 40)
-    const startY = Math.floor(Math.random() * 40)
-    players[socket.id] = {
-        id: socket.id,
-        x: startX,
-        y: startY,
+function spawnFood() {
+    return { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) }
+}
+
+function spawnNewSnake() {
+    const x = Math.floor(Math.random() * 40)
+    const y = Math.floor(Math.random() * 40)
+    return {
+        x,
+        y,
         dir: { x: 1, y: 0 },
-        tail: [{ x: startX, y: startY }]
+        tail: [{ x, y }]
     }
+}
 
-    socket.on("dir", dir => {
-        players[socket.id].dir = dir
+io.on('connection', socket => {
+    socket.on('join', () => {
+        players[socket.id] = spawnNewSnake()
     })
 
-    socket.on("disconnect", () => {
+    socket.on('dir', dir => {
+        if (players[socket.id]) players[socket.id].dir = dir
+    })
+
+    socket.on('dead', id => {
+        delete players[id]
+        io.emit('dead', id)
+    })
+
+    socket.on('disconnect', () => {
         delete players[socket.id]
     })
 })
 
-
 setInterval(() => {
     for (let id in players) {
-        const player = players[id]
-        player.x = (player.x + player.dir.x + 40) % 40
-        player.y = (player.y + player.dir.y + 40) % 40
-        player.tail.unshift({ x: player.x, y: player.y })
-        if (player.x === food.x && player.y === food.y) {
-            food = { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) }
+        const p = players[id]
+        if (!p) continue
+        p.x = (p.x + p.dir.x + 40) % 40
+        p.y = (p.y + p.dir.y + 40) % 40
+        p.tail.unshift({ x: p.x, y: p.y })
+
+        if (p.x === food.x && p.y === food.y) {
+            food = spawnFood()
         } else {
-            player.tail.pop()
+            p.tail.pop()
         }
     }
+
     io.emit("state", { players, food })
 }, 100)
-
 
 server.listen(3000, () => console.log('http://localhost:3000'))
