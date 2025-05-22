@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Snake Multi</title>
-    <script src="/socket.io/socket.io.js"></script>
+    <meta charset="UTF-8" />
+    <title>Multiplayer Snake</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
-    <script src="snake.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="sketch.js"></script>
 </head>
-<body></body>
+<body>
+    <main>
+        <div id="scoreboard">Score: 0</div>
+        <div id="canvas-container"></div>
+        <div id="players-list"></div>
+    </main>
+</body>
 </html>

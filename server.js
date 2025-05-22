@@ -63,7 +63,8 @@ function spawnNewSnake() {
         x,
         y,
         dir: { x: 1, y: 0 },
-        tail: [{ x, y }]
+        tail: [{ x, y }],
+        score: 0
     }
 }
 
@@ -86,22 +87,44 @@ io.on('connection', socket => {
     })
 })
 
+function compactPlayersData(players) {
+    const compact = {}
+    for (let id in players) {
+        const p = players[id]
+        compact[id] = {
+            x: p.x,
+            y: p.y,
+            score: p.score,
+            tailLength: p.tail.length
+        }
+    }
+    return compact
+}
+
 setInterval(() => {
     for (let id in players) {
         const p = players[id]
         if (!p) continue
+
         p.x = (p.x + p.dir.x + 40) % 40
         p.y = (p.y + p.dir.y + 40) % 40
         p.tail.unshift({ x: p.x, y: p.y })
 
         if (p.x === food.x && p.y === food.y) {
             food = spawnFood()
+            p.score++
         } else {
             p.tail.pop()
         }
     }
 
-    io.emit("state", { players, food })
-}, 100)
+    io.emit("state", {
+        players: Object.fromEntries(Object.entries(players).map(([id, p]) => [
+            id, 
+            { x: p.x, y: p.y, score: p.score, tail: p.tail }
+        ])),
+        food
+    })
+}, 80)
 
 server.listen(3000, () => console.log('http://localhost:3000'))
