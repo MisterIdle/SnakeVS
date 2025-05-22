@@ -9,6 +9,15 @@
     <script defer src="sketch.js"></script>
 </head>
 <body>
+<header class="main-header">
+    <div class="left">
+        <a href="/index.html">Accueil</a>
+    </div>
+    <div class="right" id="auth-buttons">
+        <a href="/login.html" id="login-link">Login / Register</a>
+        <button id="logout-button" onclick="logout()" style="display: none;">Logout</button>
+    </div>
+</header>
     <main>
         <div id="scoreboard">Score: 0</div>
         <div id="canvas-container"></div>

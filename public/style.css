@@ -74,3 +74,123 @@ canvas {
     width: 600px !important;
     height: 600px !important;
 }
+
+.main-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111;
+    padding: 10px 20px;
+    box-shadow: 0 0 15px #0f0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.main-header .left a,
+.main-header .right a,
+.main-header .right button {
+    color: #0f0;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.main-header .right button:hover,
+.main-header .right a:hover,
+.main-header .left a:hover {
+    text-shadow: 0 0 10px #0f0;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #0f0;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #000;
+    border: 1px solid #0f0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #0f0;
+}
+
+.back-button:hover {
+    text-shadow: 0 0 10px #0f0;
+    box-shadow: 0 0 15px #0f0;
+}
+
+
+.auth-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 100px;
+    gap: 40px;
+}
+
+.auth-container section {
+    background-color: #111;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #0f0;
+    width: 300px;
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0f0;
+    text-shadow: 0 0 10px #0f0;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-container input,
+.auth-container button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #0f0;
+    background-color: #000;
+    color: #0f0;
+    font-size: 16px;
+}
+
+.auth-container input:focus,
+.auth-container button:hover {
+    outline: none;
+    box-shadow: 0 0 10px #0f0;
+}
+
+.auth-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.styled-button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #0f0;
+    background-color: #000;
+    color: #0f0;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+}
+
+.styled-button:hover {
+    box-shadow: 0 0 10px #0f0;
+}

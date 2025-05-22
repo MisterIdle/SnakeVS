@@ -3,26 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Login / Register</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+    <a href="/index.html" class="back-button">← Retour au jeu</a>
+
     <div id="header"></div>
 
-    <h2>Register</h2>
-    <form id="registerForm">
-        <input type="text" id="regUsername" placeholder="Username" required>
-        <input type="email" id="regEmail" placeholder="Email" required>
-        <input type="password" id="regPassword" placeholder="Password" required>
-        <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
-        <button type="submit">Register</button>
-    </form>
+    <main class="auth-container">
+        <div class="auth-block">
+            <section>
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <input type="email" id="logEmail" placeholder="Email" required>
+                    <input type="password" id="logPassword" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+            </section>
+            <button id="toggleRegister" class="styled-button">Créer un compte</button>
+        </div>
 
-    <h2>Login</h2>
-    <form id="loginForm">
-        <input type="email" id="logEmail" placeholder="Email" required>
-        <input type="password" id="logPassword" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
+        <section id="registerSection" style="display: none;">
+            <h2>Register</h2>
+            <form id="registerForm">
+                <input type="text" id="regUsername" placeholder="Username" required>
+                <input type="email" id="regEmail" placeholder="Email" required>
+                <input type="password" id="regPassword" placeholder="Password" required>
+                <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </section>
+    </main>
 
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('toggleRegister');
+            const registerSection = document.getElementById('registerSection');
+            toggleBtn.addEventListener('click', () => {
+                toggleBtn.style.display = 'none';
+                registerSection.style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>
