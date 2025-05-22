@@ -5,7 +5,7 @@ function logout() {
     window.location.href = '/login.html';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => { 
     fetch('/header.html')
         .then(r => r.text())
         .then(html => {
